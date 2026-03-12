@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI × Human — Nutrition Innovation Sprint | REBORRN</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #0a0a0b;
+  --bg-secondary: #111113;
+  --bg-card: #18181b;
+  --bg-card-hover: #1f1f23;
+  --accent: #f43f5e;
+  --accent-soft: rgba(244, 63, 94, 0.12);
+  --accent-glow: rgba(244, 63, 94, 0.25);
+  --coke-red: #f43f5e;
+  --text-primary: #fafafa;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+  --border: rgba(255,255,255,0.06);
+  --border-active: rgba(244, 63, 94, 0.3);
+  --gradient-1: linear-gradient(135deg, #f43f5e, #fb923c);
+  --gradient-2: linear-gradient(135deg, #8b5cf6, #6366f1);
+  --gradient-3: linear-gradient(135deg, #06b6d4, #3b82f6);
+  --gradient-ai: linear-gradient(135deg, #a78bfa, #818cf8, #6366f1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 2; }
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  padding: 80px 0;
+}
+
+.hero-glow {
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(244,63,94,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-glow-2 {
+  position: absolute;
+  bottom: -10%;
+  left: -15%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+  padding: 6px 14px;
+  background: var(--accent-soft);
+  border-radius: 100px;
+  border: 1px solid rgba(244,63,94,0.15);
+  width: fit-content;
+}
+
+.hero-label .dot {
+  width: 6px; height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: pulse 2s ease infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}
+
+.hero h1 {
+  font-size: clamp(40px, 6vw, 72px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: 28px;
+  max-width: 900px;
+}
+
+.hero h1 .gradient-text {
+  background: var(--gradient-1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-size: 20px;
+  color: var(--text-secondary);
+  max-width: 650px;
+  line-height: 1.65;
+  font-weight: 400;
+  margin-bottom: 48px;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.meta-item .label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.meta-item .value {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+section {
+  padding: 100px 0;
+  position: relative;
+}
+
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+  margin: 0;
+}
+
+.section-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+
+.section-desc {
+  font-size: 17px;
+  color: var(--text-secondary);
+  max-width: 620px;
+  line-height: 1.7;
+  margin-bottom: 48px;
+}
+
+.challenge-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 40px;
+}
+
+.challenge-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 24px;
+  transition: all 0.3s ease;
+}
+
+.challenge-card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-active);
+  transform: translateY(-2px);
+}
+
+.challenge-number {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 36px;
+  font-weight: 700;
+  background: var(--gradient-1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 12px;
+}
+
+.challenge-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.challenge-card p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.sprint-flow {
+  position: relative;
+  margin-top: 48px;
+}
+
+.day-block {
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.day-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.day-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 100px;
+  letter-spacing: 0.05em;
+}
+
+.day-badge.day-0 { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.25); }
+.day-badge.day-1 { background: rgba(244,63,94,0.15); color: #f43f5e; border: 1px solid rgba(244,63,94,0.25); }
+.day-badge.day-2 { background: rgba(6,182,212,0.15); color: #06b6d4; border: 1px solid rgba(6,182,212,0.25); }
+.day-badge.day-3 { background: rgba(251,146,60,0.15); color: #fb923c; border: 1px solid rgba(251,146,60,0.25); }
+
+.day-title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.phase-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.phase-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 20px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.phase-card:hover {
+  border-color: var(--border-active);
+  background: var(--bg-card-hover);
+}
+
+.phase-card .phase-icon {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.phase-card h4 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.phase-card p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.ai-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #a78bfa;
+  background: rgba(167,139,250,0.1);
+  padding: 3px 9px;
+  border-radius: 6px;
+  margin-top: 10px;
+  letter-spacing: 0.03em;
+}
+
+.human-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fb923c;
+  background: rgba(251,146,60,0.1);
+  padding: 3px 9px;
+  border-radius: 6px;
+  margin-top: 10px;
+  letter-spacing: 0.03em;
+}
+
+.both-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #34d399;
+  background: rgba(52,211,153,0.1);
+  padding: 3px 9px;
+  border-radius: 6px;
+  margin-top: 10px;
+  letter-spacing: 0.03em;
+}
+
+.toolkit-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 40px;
+}
+
+.tool-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 24px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.tool-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+}
+
+.tool-card.t1::before { background: var(--gradient-ai); }
+.tool-card.t2::before { background: var(--gradient-3); }
+.tool-card.t3::before { background: var(--gradient-1); }
+.tool-card.t4::before { background: linear-gradient(135deg, #34d399, #06b6d4); }
+.tool-card.t5::before { background: linear-gradient(135deg, #fb923c, #f43f5e); }
+.tool-card.t6::before { background: linear-gradient(135deg, #e879f9, #a78bfa); }
+
+.tool-card:hover {
+  border-color: var(--border-active);
+  transform: translateY(-2px);
+}
+
+.tool-card h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.tool-card p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.tool-card .tool-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+
+.outcomes-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 40px;
+}
+
+.outcome-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.outcome-card:hover {
+  border-color: var(--border-active);
+  transform: translateY(-2px);
+}
+
+.outcome-icon {
+  font-size: 28px;
+  margin-bottom: 14px;
+}
+
+.outcome-card h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.outcome-card p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.why-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 40px;
+}
+
+.why-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 24px;
+  transition: all 0.3s ease;
+}
+
+.why-card:hover {
+  border-color: var(--border-active);
+}
+
+.why-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.why-card p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.cta-section {
+  text-align: center;
+  padding: 120px 0;
+}
+
+.cta-section h2 {
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 700;
+  margin-bottom: 20px;
+  letter-spacing: -0.02em;
+}
+
+.cta-section p {
+  font-size: 17px;
+  color: var(--text-secondary);
+  max-width: 500px;
+  margin: 0 auto 36px;
+}
+
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 36px;
+  background: var(--gradient-1);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(244,63,94,0.3);
+}
+
+footer {
+  padding: 40px 0;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+footer p {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+footer .reborrn-mark {
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.accent-block {
+  background: linear-gradient(135deg, rgba(244,63,94,0.06), rgba(99,102,241,0.06));
+  border: 1px solid rgba(244,63,94,0.1);
+  border-radius: 16px;
+  padding: 32px;
+  margin-top: 48px;
+}
+
+.accent-block h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.accent-block p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+  .challenge-grid,
+  .toolkit-grid,
+  .why-grid { grid-template-columns: 1fr; }
+  .outcomes-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero-meta { gap: 20px; }
+  .container { padding: 0 20px; }
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.flow-line {
+  position: absolute;
+  left: 52px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--border), transparent);
+}
+
+.stat-row {
+  display: flex;
+  gap: 40px;
+  margin: 48px 0;
+  padding: 32px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.stat { text-align: center; }
+
+.stat .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 36px;
+  font-weight: 700;
+  background: var(--gradient-1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.stat .desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.framework-teaser {
+  background: linear-gradient(135deg, rgba(167,139,250,0.08), rgba(99,102,241,0.04));
+  border: 1px solid rgba(167,139,250,0.15);
+  border-radius: 16px;
+  padding: 32px;
+  margin-top: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.framework-teaser::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(167,139,250,0.1), transparent);
+}
+
+.framework-teaser h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #c4b5fd;
+}
+
+.framework-teaser p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  position: relative;
+}
+
+.conf-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #c4b5fd;
+  background: rgba(167,139,250,0.1);
+  padding: 3px 10px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow-2"></div>
+  <div class="container">
+    <div class="hero-label">
+      <span class="dot"></span>
+      Proposal for TCCC Nutrition
+    </div>
+    <h1>
+      AI × Human<br>
+      <span class="gradient-text">Nutrition Innovation Sprint</span>
+    </h1>
+    <p class="hero-subtitle">
+      A 2.5-day co-creation sprint that turns 290 AI-generated concepts into a committed, OU-owned global innovation pipeline — with real humans making real decisions, amplified by AI at every step.
+    </p>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <span class="label">Format</span>
+        <span class="value">2.5 Day Sprint</span>
+      </div>
+      <div class="meta-item">
+        <span class="label">Category</span>
+        <span class="value">Nutrition (Minute Maid, Simply, Cappy, Innocent, DelValle)</span>
+      </div>
+      <div class="meta-item">
+        <span class="label">Participants</span>
+        <span class="value">Top 4 OUs</span>
+      </div>
+      <div class="meta-item">
+        <span class="label">Timing</span>
+        <span class="value">Early Q2 2026</span>
+      </div>
+      <div class="meta-item">
+        <span class="label">By</span>
+        <span class="value">REBORRN</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- THE CHALLENGE -->
+<section class="fade-in">
+  <div class="container">
+    <div class="section-label">The Challenge</div>
+    <h2 class="section-title">290 concepts. 4 OUs. Zero commitment — yet.</h2>
+    <p class="section-desc">
+      The Nutrition category has done something rare: used AI to generate over 290 product concepts across Minute Maid, Simply, Cappy, Innocent, and DelValle. The hard part isn't generating ideas — it's turning them into a committed, globally coordinated innovation pipeline with clear OU ownership.
+    </p>
+    <div class="challenge-grid">
+      <div class="challenge-card">
+        <div class="challenge-number">290+</div>
+        <h3>AI-Generated Concepts</h3>
+        <p>A rich but unfiltered pool of beverage nutrition ideas — from functional formulations to occasion-based innovations. Quantity is there. Now it needs conviction.</p>
+      </div>
+      <div class="challenge-card">
+        <div class="challenge-number">4</div>
+        <h3>Operating Units</h3>
+        <p>NAOU, LATAM, GCM, and JSK — each with distinct consumer palates, regulatory landscapes, and market dynamics. Alignment isn't automatic.</p>
+      </div>
+      <div class="challenge-card">
+        <div class="challenge-number">1</div>
+        <h3>Commitment Per OU</h3>
+        <p>Each OU walks out owning at least one innovation initiative — not just for their market, but as the global lead. From concept to champion in 2.5 days.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- STAT ROW -->
+<div class="stat-row fade-in">
+  <div class="stat">
+    <div class="num">290→20→10→4</div>
+    <div class="desc">The Funnel: From AI-Generated Pool to OU-Owned Commitments</div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- THE APPROACH -->
+<section class="fade-in">
+  <div class="container">
+    <div class="section-label">The Approach</div>
+    <h2 class="section-title">AI doesn't replace the room.<br>It amplifies the room.</h2>
+    <p class="section-desc">
+      This isn't an AI demo dressed as a workshop. It's a rigorous innovation sprint where AI handles the heavy analytical lifting — so humans can focus on what they do best: judging, debating, building conviction, and committing.
+    </p>
+
+    <div class="sprint-flow">
+
+      <!-- PRE-SPRINT -->
+      <div class="day-block">
+        <div class="day-header">
+          <span class="day-badge day-0">PRE-SPRINT</span>
+          <span class="day-title">Intelligence Layer (2 weeks before)</span>
+        </div>
+        <div class="phase-grid">
+          <div class="phase-card">
+            <div class="phase-icon">🌍</div>
+            <h4>Immersion to Opportunity Mapping</h4>
+            <p>Pre-sprint immersion into the key opportunity areas the Nutrition category wants to solve. Participants arrive already oriented around consumer tensions, market signals, and strategic focus zones — not starting from zero on Day 1.</p>
+            <span class="both-tag">🤝 AI × Human</span>
+          </div>
+          <div class="phase-card">
+            <div class="phase-icon">📡</div>
+            <h4>Innovation Intelligence Platform</h4>
+            <p>A custom-built, password-protected platform that aggregates VC funding data, new product launches, ingredient trends, and competitive signals. Updated weekly. Available before and after the sprint.</p>
+            <span class="ai-tag">⚡ AI-Powered</span>
+          </div>
+          <div class="phase-card">
+            <div class="phase-icon">🗂️</div>
+            <h4>Concept Pre-Clustering</h4>
+            <p>AI pre-analyzes the 290 concepts against opportunity areas, consumer tensions, and market whitespace — so participants arrive with a map, not a haystack.</p>
+            <span class="ai-tag">⚡ AI-Analyzed</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 1 -->
+      <div class="day-block">
+        <div class="day-header">
+          <span class="day-badge day-1">DAY 1</span>
+          <span class="day-title">Immerse & Prioritize</span>
+        </div>
+        <div class="phase-grid">
+          <div class="phase-card">
+            <div class="phase-icon">🔬</div>
+            <h4>Expert Table Discussions</h4>
+            <p>Mixed tables: R&D, human insight leads, VC intelligence agents, and category experts. Each table validates ingredients, cultural signals, and investment activity against opportunity areas.</p>
+            <span class="human-tag">👤 Human-Led</span>
+          </div>
+          <div class="phase-card">
+            <div class="phase-icon">🗺️</div>
+            <h4>290 → 20: Concept Heat Mapping</h4>
+            <p>Map the 290 concepts against opportunity areas. Gallery walk, dot voting, and AI-assisted clustering. Identify energy zones and white spaces. Exit Day 1 with a Top 20.</p>
+            <span class="both-tag">🤝 AI × Human</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 2 -->
+      <div class="day-block">
+        <div class="day-header">
+          <span class="day-badge day-2">DAY 2</span>
+          <span class="day-title">Stress-Test & Reinvent</span>
+        </div>
+        <div class="phase-grid">
+          <div class="phase-card">
+            <div class="phase-icon">🎭</div>
+            <h4>Synthetic Consumer Focus Groups</h4>
+            <p>AI-powered synthetic personas represent consumer archetypes across all 4 markets. Real-time concept testing without the 6-week lead time. Identify resonance, friction, and improvement areas.</p>
+            <span class="ai-tag">⚡ AI-Simulated</span>
+          </div>
+          <div class="phase-card">
+            <div class="phase-icon">🔄</div>
+            <h4>Concept Reinvention Lab</h4>
+            <p>Provocation-driven redesign: "How would a competitor launch this?" "What if we reversed it?" AI generates lateral alternatives. A semiotic agent checks cultural fit. Human teams pick, combine, and sharpen.</p>
+            <span class="both-tag">🤝 AI × Human</span>
+          </div>
+          <div class="phase-card">
+            <div class="phase-icon">🎯</div>
+            <h4>20 → 10: Market Fit Filter</h4>
+            <p>Assess the refined Top 20 against opportunity size, consumer relevance, regulatory readiness, supply chain feasibility, and competitive landscape. Create market-tailored lineups. Exit with a Top 10.</p>
+            <span class="human-tag">👤 Human-Led</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 2.5 -->
+      <div class="day-block">
+        <div class="day-header">
+          <span class="day-badge day-3">DAY 2.5</span>
+          <span class="day-title">Commit & Launch</span>
+        </div>
+        <div class="phase-grid">
+          <div class="phase-card">
+            <div class="phase-icon">📊</div>
+            <h4>Rough Business Cases</h4>
+            <p>Each OU team builds a rough business case for their top picks: supply chain needs, cost assumptions, margin estimates, timeline to pilot. AI assists with benchmarking and scenario modeling.</p>
+            <span class="both-tag">🤝 AI × Human</span>
+          </div>
+          <div class="phase-card">
+            <div class="phase-icon">🐉</div>
+            <h4>Dragon's Den: The Commitment Moment</h4>
+            <p>OUs pitch their chosen concepts to a panel of synthetic "dragons" — AI agents embodying a bottler CEO, a retail buyer, and Coca-Cola leadership. Real questions. Real pressure. Then: real commitment from real humans.</p>
+            <span class="both-tag">🤝 AI × Human</span>
+          </div>
+          <div class="phase-card">
+            <div class="phase-icon">🚀</div>
+            <h4>Global Innovation Commitment Map</h4>
+            <p>A live, shared artifact: which OU owns which initiative, for which markets, with what timeline. Not a "let's follow up" — a signed commitment to lead.</p>
+            <span class="human-tag">👤 Human-Led</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- AI TOOLKIT -->
+<section class="fade-in">
+  <div class="container">
+    <div class="section-label">The AI Toolkit</div>
+    <h2 class="section-title">Six AI systems. Zero gimmicks.</h2>
+    <p class="section-desc">
+      Every AI tool in this sprint earns its place by doing something faster, deeper, or at a scale that humans alone can't match — freeing participants to do the work only humans can do.
+    </p>
+    <div class="toolkit-grid">
+      <div class="tool-card t2">
+        <div class="tool-label">Market Intelligence</div>
+        <h3>Trend Oracle</h3>
+        <p>An AI agent that surfaces consumer tensions, emerging ingredients, cultural signals, and category whitespace — pulling from social listening, trend databases, and academic research.</p>
+      </div>
+      <div class="tool-card t3">
+        <div class="tool-label">Consumer Testing</div>
+        <h3>Synthetic Focus Groups</h3>
+        <p>AI-powered consumer personas across all 4 markets. Test concepts in minutes, not months. Get directional feedback on resonance, naming, positioning, and occasion fit.</p>
+      </div>
+      <div class="tool-card t4">
+        <div class="tool-label">Investment Intelligence</div>
+        <h3>VC & Launch Radar</h3>
+        <p>A custom-built platform scraping VC funding data, startup launches, ingredient patents, and competitive moves in the nutrition/beverage space. Weekly updates. Persistent access post-sprint.</p>
+      </div>
+      <div class="tool-card t5">
+        <div class="tool-label">Creative Provocation</div>
+        <h3>Lateral Thinking Engine</h3>
+        <p>AI-driven concept reinvention: competitive flips, reversal exercises, cross-category inspiration, and semiotic analysis to ensure concepts fit cultural context.</p>
+      </div>
+      <div class="tool-card t6">
+        <div class="tool-label">Validation</div>
+        <h3>Dragon's Den Agents</h3>
+        <p>Synthetic panelists representing a bottler CEO, a key retail buyer, and leadership archetypes. They interrogate business cases with the rigor and skepticism of real stakeholders.</p>
+      </div>
+    </div>
+
+    <div class="framework-teaser">
+      <span class="conf-badge">🔒 Preview — In Development</span>
+      <h4>Connected to Coca-Cola's New Innovation Framework</h4>
+      <p>This sprint is designed to align with the emerging global Innovation framework currently being developed for the newly created Marketing Innovation vertical. The methodology, tools, and operating rhythms are built to plug directly into the Innovation Hubs model — persistent, cross-functional, market-led. This sprint is both a standalone delivery and a proof-of-concept for how innovation will work at scale.</p>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- OUTCOMES -->
+<section class="fade-in">
+  <div class="container">
+    <div class="section-label">Outcomes</div>
+    <h2 class="section-title">What walks out of the room.</h2>
+    <div class="outcomes-grid">
+      <div class="outcome-card">
+        <div class="outcome-icon">📋</div>
+        <h4>OU Commitment Map</h4>
+        <p>Each OU owns at least one innovation initiative — with named leads, markets, and timelines.</p>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">🧪</div>
+        <h4>Top 10 Concepts</h4>
+        <p>Stress-tested, consumer-validated, market-fitted concepts with rough business cases attached.</p>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">📡</div>
+        <h4>Intelligence Platform</h4>
+        <p>A persistent, AI-powered innovation radar that continues feeding the team post-sprint.</p>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">🧬</div>
+        <h4>Innovation Playbook</h4>
+        <p>A documented, repeatable AI×Human sprint methodology that can be deployed for other categories.</p>
+      </div>
+    </div>
+
+    <div class="accent-block">
+      <h3>The real outcome isn't a deck. It's a decision.</h3>
+      <p>Most innovation workshops produce beautiful post-its and polite consensus. This one produces signed commitments from OU leaders to develop and launch specific innovation initiatives — with their name on it, for their market and the world. The AI tools aren't decoration. They're there to compress 3 months of pre-work into 3 weeks, so the humans in the room can focus entirely on the decisions that matter.</p>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- WHY REBORRN -->
+<section class="fade-in">
+  <div class="container">
+    <div class="section-label">Why REBORRN</div>
+    <h2 class="section-title">We've done this before. Just never quite like this.</h2>
+    <div class="why-grid">
+      <div class="why-card">
+        <h3>Deep Coca-Cola System Knowledge</h3>
+        <p>7+ years embedded in TCCC's marketing operating model. We built the Experience Loop, the CWOM framework, and the BVA integration. We know how the system works — and where it doesn't.</p>
+      </div>
+      <div class="why-card">
+        <h3>Nutrition Category Track Record</h3>
+        <p>Led the Minute Maid Kids Charter sprint, Nutrition Ways of Working design, and multiple category innovation projects. We know the brands, the teams, and the dynamics.</p>
+      </div>
+      <div class="why-card">
+        <h3>The 58:hours Methodology</h3>
+        <p>Our signature sprint format: co-creation with tangible output in compressed timeframes. Designed for exactly this kind of high-stakes, multi-stakeholder decision-making. Proven across dozens of global engagements.</p>
+      </div>
+      <div class="why-card">
+        <h3>AI-First, Human-Centered</h3>
+        <p>We don't bolt AI onto workshops. We design experiences where AI and humans each do what they're best at. Synthetic personas, trend oracles, and intelligence platforms aren't experiments for us — they're standard operating procedure.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- CTA -->
+<section class="cta-section fade-in">
+  <div class="container">
+    <h2>Ready to turn 290 concepts<br>into 4 committed OUs?</h2>
+    <p>Let's scope the sprint together. We can move fast.</p>
+    <a href="mailto:dimi@reborrn.com?subject=Nutrition Innovation Sprint — Let's Talk&cc=giorgos@reborrn.com" class="cta-btn">
+      Let's Talk →
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p><span class="reborrn-mark">REBORRN</span> · Consultants & Makers · Athens · London · New York</p>
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
